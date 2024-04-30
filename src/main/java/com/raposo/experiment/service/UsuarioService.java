@@ -28,7 +28,7 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public List<Usuario> listarUsuarios() {
-        logger.info("Consultando todos os Dendros");
+        logger.info("Listando usuarios");
         return usuarioRepository.findAll();
     }
     
