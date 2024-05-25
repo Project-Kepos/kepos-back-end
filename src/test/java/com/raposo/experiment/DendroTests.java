@@ -23,4 +23,12 @@ public class DendroTests {
         Assertions.assertEquals(response.get().getId(), 1L);
     }
 
+    //Raposo
+    @Test
+    public void consultarDendroNometest(){
+        var response = dendroService.consultaDendrosPorNome("Dendro 01");
+
+        Assertions.assertEquals(response.size(), 1);
+    }
+
 }
