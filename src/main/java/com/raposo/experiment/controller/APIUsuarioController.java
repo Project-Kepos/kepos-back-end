@@ -53,6 +53,9 @@ public class APIUsuarioController {
     public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario) {
         try{
         logger.info("Cadastrando usuario");
+            
+        if (usuarioService.verificarEmail(usuario.getEmail()))return ResponseEntity.badRequest().body("Email já cadastrado");
+
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.cadastrarUsuario(usuario));
         }
         catch(Exception e){
@@ -64,6 +67,8 @@ public class APIUsuarioController {
     @PostMapping("/login")
     public ResponseEntity<Object>efetuarLogin(@RequestBody Usuario usuario){
         try {
+            logger.info("Tentando login ");
+
             var token = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getSenha());
             var authentication = manager.authenticate(token);
 
@@ -72,6 +77,15 @@ public class APIUsuarioController {
             return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErroCustomizadoDTO("E-mail ou senha inválidos"));
+        }
+    }
+
+    @PostMapping("/consultaEmail")
+    public ResponseEntity<Object>consultaEmail(@RequestBody String email){
+        try {
+            return ResponseEntity.ok(usuarioService.verificarEmail(email));
+        } catch (Exception e) {
+            return ResponseEntity.ok(e);
         }
     }
 

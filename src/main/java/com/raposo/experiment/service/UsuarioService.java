@@ -36,5 +36,15 @@ public class UsuarioService implements IUsuarioService {
         logger.info("Listando usuarios");
         return usuarioRepository.findAll();
     }
+
+    @Override
+    public boolean verificarEmail(String email) {
+        try {
+            return usuarioRepository.existsByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return false; 
+        }
+    }
     
 }

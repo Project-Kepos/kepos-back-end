@@ -8,4 +8,4 @@ import com.raposo.experiment.model.Usuario;
 public interface IUsuarioService {
     public Optional<Usuario> cadastrarUsuario(Usuario usuario);
     public List<Usuario> listarUsuarios();
-}
+    public boolean verificarEmail(String email);}
