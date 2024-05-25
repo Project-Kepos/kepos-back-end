@@ -29,5 +29,15 @@ class ExperimentApplicationTests {
 
 	}
 
+	//Alberto
+   	@Autowired
+	UsuarioService us = new UsuarioService();
+	@Test
+	public void userRegisterTest(){
+		Usuario u = new Usuario("João","joao@gmail.com","1234567");
+		var response = us.cadastrarUsuario(u);
+		Assertions.assertTrue(response.isPresent());
+	}
+
 
 }
