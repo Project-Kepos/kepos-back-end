@@ -44,10 +44,11 @@ public class DendroTests {
         }
     //Carla
     @Test
-    public void consultardendrosteste(){
-        var response = dendroService.consultaDendros();
+    public void consultaDendroPorId(){
+        var response = dendroService.consultaDendroPorId(1L);
 
-        Assertions.assertEquals(response.size(),4);
+        Assertions.assertTrue(response.isPresent());
+        Assertions.assertEquals(response.get().getName(), "Dendro 01");
     }
     }
 
