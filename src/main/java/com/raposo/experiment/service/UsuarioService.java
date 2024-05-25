@@ -36,5 +36,7 @@ public class UsuarioService implements IUsuarioService {
         logger.info("Listando usuarios");
         return usuarioRepository.findAll();
     }
+
+
     
 }

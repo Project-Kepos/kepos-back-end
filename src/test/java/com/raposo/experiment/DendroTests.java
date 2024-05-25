@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class DendroTests {
 
@@ -31,4 +33,15 @@ public class DendroTests {
         Assertions.assertEquals(response.size(), 1);
     }
 
-}
+    //Eloah
+    @Test
+    public void  consultaDendros() {
+
+        var response = dendroService.consultaDendros();
+        Assertions.assertEquals(response.size(), 4);
+
+        }
+
+    }
+
+
