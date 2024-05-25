@@ -40,8 +40,15 @@ public class DendroTests {
         var response = dendroService.consultaDendros();
         Assertions.assertEquals(response.size(), 4);
 
-        }
 
+        }
+    //Carla
+    @Test
+    public void consultardendrosteste(){
+        var response = dendroService.consultaDendros();
+
+        Assertions.assertEquals(response.size(),4);
+    }
     }
 
 
