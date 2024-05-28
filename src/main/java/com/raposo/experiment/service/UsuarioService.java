@@ -48,8 +48,9 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Optional<Usuario> buscarUsuario(Long id) {
+    public Optional<Usuario> buscarUsuario(String email) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarUsuario'");
     }
+
 }

@@ -9,5 +9,5 @@ public interface IUsuarioService {
     public Optional<Usuario> cadastrarUsuario(Usuario usuario);
     public List<Usuario> listarUsuarios();
     public boolean verificarEmail(String email);
-    public Optional<Usuario> buscarUsuario(Long id);
+    public Optional<Usuario> buscarUsuario(String email);
 }
