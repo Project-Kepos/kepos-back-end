@@ -46,5 +46,10 @@ public class UsuarioService implements IUsuarioService {
             return false; 
         }
     }
-    
+
+    @Override
+    public Optional<Usuario> buscarUsuario(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarUsuario'");
+    }
 }

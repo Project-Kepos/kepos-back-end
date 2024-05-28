@@ -46,7 +46,7 @@ public class APIUsuarioController {
     @Autowired /* Injetando serviço de geração de token jwt para autenticação */
     private TokenService tokenService;
 
-    private final String idclie = "idCliente";
+    private final String idUsuario = "idUsario";
 
     @PostMapping
     @Transactional
@@ -89,12 +89,18 @@ public class APIUsuarioController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     @Transactional
     public ResponseEntity<Object> consultaUsuario() {
         logger.info("Listando usuarios no sistema");
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
+    }
+    @GetMapping
+    @Transactional
+    public ResponseEntity<Object> buscaDadosUsuaio(HttpServletRequest request) {
+        var idUsario = request.getAttribute("idUsuario");
+        return ResponseEntity.status(HttpStatus.OK).body(idUsario);
     }
     
 }
