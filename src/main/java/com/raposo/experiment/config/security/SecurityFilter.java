@@ -1,4 +1,4 @@
-package com.raposo.experiment.config;
+package com.raposo.experiment.config.security;
 
 import com.raposo.experiment.model.IUsuarioRepository;
 import jakarta.servlet.FilterChain;
@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication); // Forçando autenticação
-            request.setAttribute("idCliente", tokenService.getUserId(tokenJWT)); // Passando o id do cliente do token pra frente
+            request.setAttribute("userId", tokenService.getUserId(tokenJWT)); // Passando o id do cliente do token pra frente
         }
 
         filterChain.doFilter(request, response); // Dando continuidade a cadeia de filtros

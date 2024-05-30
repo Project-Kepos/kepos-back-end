@@ -1,4 +1,4 @@
-package com.raposo.experiment.config;
+package com.raposo.experiment.config.security;
 
 import com.raposo.experiment.model.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

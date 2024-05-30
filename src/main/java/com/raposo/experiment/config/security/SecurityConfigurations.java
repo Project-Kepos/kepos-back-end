@@ -1,4 +1,4 @@
-package com.raposo.experiment.config;
+package com.raposo.experiment.config.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.raposo.experiment.config;
+package com.raposo.experiment.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

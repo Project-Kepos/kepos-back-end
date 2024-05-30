@@ -1,9 +1,10 @@
-package com.raposo.experiment.config;
+package com.raposo.experiment.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.raposo.experiment.config.error.ErroCustomizado;
 import com.raposo.experiment.model.Usuario;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class TokenService {
      */
 
     private static final String TOKENSECRET = "VALOR_ALEATORIO_PRIVADO_SECRETO_PRA_DIFERENCIAR_NOSSO_BACK_END";
-    private static final String RESTSIGNATURE = "API REST Node Bounty";
+    private static final String RESTSIGNATURE = "API REST KEPOS";
 
     public String gerarToken(Usuario usuario) {
         try {
@@ -38,12 +39,12 @@ public class TokenService {
             return JWT.create()
                     .withIssuer(RESTSIGNATURE)
                     .withSubject(usuario.getEmail())
-                    .withClaim("id", usuario.getId())
+                    .withClaim("userId", usuario.getId())
                     .withExpiresAt(dataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             // Invalid Signing configuration / Couldn't convert Claims.
-            throw new RuntimeException("Erro ao gerar token jwt", exception);
+            throw new ErroCustomizado("Erro ao gerar token jwt");
         }
     }
 
@@ -60,21 +61,21 @@ public class TokenService {
                     .verify(tokenJWT)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT inválido ou expirado!");
+            throw new ErroCustomizado("Token JWT inválido ou expirado!");
         }
     }
 
-    public String getUserId(String tokenJWT) {
+    public Long getUserId(String tokenJWT) {
         try {
             var algorithm = Algorithm.HMAC256(TOKENSECRET);
             return JWT.require(algorithm)
                     .withIssuer(RESTSIGNATURE)
                     .build()
                     .verify(tokenJWT)
-                    .getClaim("id")
-                    .asString();
+                    .getClaim("userId")
+                    .asLong();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT inválido ou expirado!");
+            throw new ErroCustomizado("Token JWT inválido ou expirado!");
         }
     }
 

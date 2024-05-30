@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.raposo.experiment.model.IUsuarioRepository;
 import com.raposo.experiment.model.Usuario;
@@ -17,6 +16,7 @@ import com.raposo.experiment.model.Usuario;
 public class LoadDatabase {
     @Autowired
     private IUsuarioRepository repositoryUsuario;
+    
     // classe para criptografar senha
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder PasswordEncoder;
@@ -34,22 +34,16 @@ public class LoadDatabase {
 
             logger.info("Dendros carregados no banco de dados");
         };
-
     }
-    @Bean
+    
     CommandLineRunner initDatabase(IUsuarioRepository  repository) {
         return args -> {
-            //Salvar clientes
             var senha = PasswordEncoder.encode("12345");
-            var novousuario = new Usuario("Usuario da Silva", "usuario@email.com", senha);
-            repositoryUsuario.saveAll(Arrays.asList(novousuario));
-            System.out.println("Usuário teste:" + novousuario);
-
-            Logger logger = LogManager.getLogger(this.getClass());
-
-
+            var novoUsuario = new Usuario("Usuario da Silva", "usuario@email.com", senha);
+            
+            repositoryUsuario.save(novoUsuario);
+            logger.info("Usuário teste carregado no banco de dados: " + novoUsuario);
         };
-
     }
 
 }
