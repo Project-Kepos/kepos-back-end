@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
+                    req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/usuario/consultaEmail")).permitAll(); //REST
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/usuario/login")).permitAll(); //REST
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/usuario")).permitAll();
                     req.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
