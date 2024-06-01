@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.raposo.experiment.model.Dendro;
+import com.raposo.experiment.model.Modulo;
 
 public interface IDendroService {
 
@@ -11,7 +12,7 @@ public interface IDendroService {
 
     public List<Dendro> consultaDendrosPorNome(String nome);
 
-    public Optional<Dendro> consultaDendroPorId(Long id);
+    public Optional<Dendro> consultaDendroPorId(String id);
 
     public Optional<Dendro> cadastrarDendro(Dendro dendro);
 

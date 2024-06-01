@@ -1,30 +1,45 @@
 package com.raposo.experiment.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
 @Entity
 public class Dendro {
     @Id
-    private Long id;
+    private String id;
 
     private String name;
-    private int position;
+    private double temperature;
+    private double humidity;
+    private int luminosity;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "dendro")
+    private List<Modulo> modules;
 
+    // Constructors
     public Dendro() {
     }
 
-    public Dendro(Long id, String name, int position) {
+    public Dendro(String id, String name, double temperature, double humidity, int luminosity) {
         this.id = id;
         this.name = name;
-        this.position = position;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.luminosity = luminosity;
+        this.modules = modules;
     }
 
-    public Long getId() {
+    // Getters and Setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,11 +51,35 @@ public class Dendro {
         this.name = name;
     }
 
-    public int getPosition() {
-        return position;
+    public double getTemperature() {
+        return temperature;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public int getLuminosity() {
+        return luminosity;
+    }
+
+    public void setLuminosity(int luminosity) {
+        this.luminosity = luminosity;
+    }
+
+    public List<Modulo> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Modulo> modules) {
+        this.modules = modules;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
     }
 }

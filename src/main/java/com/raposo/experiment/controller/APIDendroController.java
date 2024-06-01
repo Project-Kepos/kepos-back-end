@@ -45,7 +45,7 @@ public class APIDendroController {
 
     @GetMapping("dendro/{id}")
     @Transactional
-    public ResponseEntity<Object> consultaPorId(@PathVariable Long id) {
+    public ResponseEntity<Object> consultaPorId(@PathVariable String id) {
         logger.info("Consultando Dendro por id");
 
         return ResponseEntity.status(HttpStatus.OK).body(dendroService.consultaDendroPorId(id));
@@ -69,7 +69,7 @@ public class APIDendroController {
 
     @PatchMapping("dendro/{id}")
     @Transactional
-    public ResponseEntity<Object> atualizarDendro(@PathVariable Long id,@RequestBody Dendro dendro) {
+    public ResponseEntity<Object> atualizarDendro(@PathVariable String id,@RequestBody Dendro dendro) {
         logger.info("Atualizando Dendro");
 
         Assert.notNull(id, "Id não pode ser nulo");

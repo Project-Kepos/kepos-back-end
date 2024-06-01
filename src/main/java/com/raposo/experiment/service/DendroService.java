@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.raposo.experiment.model.Dendro;
 import com.raposo.experiment.model.IDendroRepository;
+import com.raposo.experiment.model.Modulo;
 
 @Service
 public class DendroService implements IDendroService {
@@ -50,7 +51,7 @@ public class DendroService implements IDendroService {
     }
 
     @Override
-    public Optional<Dendro> consultaDendroPorId(Long id) {
+    public Optional<Dendro> consultaDendroPorId(String id) {
         logger.info("Consultando Dendro por id");
 
         return dendroRepository.findById(id);
@@ -68,7 +69,9 @@ public class DendroService implements IDendroService {
         logger.info("Atualizando Dendro");
 
         return dendroRepository.findById(dendro.getId()).map(d -> {
-            d.setPosition(dendro.getPosition());
+            d.setName(dendro.getName());
+            d.setLuminosity(dendro.getLuminosity());
+            d.setTemperature(dendro.getTemperature());
             
             return dendroRepository.save(d);
         });

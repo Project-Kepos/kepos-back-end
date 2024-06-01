@@ -37,6 +37,7 @@ public class SecurityConfigurations {
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/usuario/login")).permitAll(); //REST
                     req.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/usuario")).permitAll();
                     req.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
+                    req.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/**")).permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
