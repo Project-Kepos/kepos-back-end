@@ -1,6 +1,5 @@
 package com.raposo.experiment.model;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
@@ -9,44 +8,45 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
-public class Dendro {
-	
+public class Modulo {
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
 
-	private int position;
-
-	private Double temperature;
+	private String description;
 
 	private Double moisture;
 
 	@ManyToOne
 	@JsonIgnore
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Usuario user;
+	private Dendro dendro;
 
-	@OneToMany(mappedBy = "dendro")
-	private List<Modulo> modules;
-
-	public Dendro() {
+	public Modulo() {
 	}
 
-	public Dendro(Long id, String name, int position, Double temperature, Double moisture, Usuario user,
-			List<Modulo> modules) {
-		this.id = id;
+	public Modulo(String name, String description, Double moisture, Dendro dendro) {
 		this.name = name;
-		this.position = position;
-		this.temperature = temperature;
+		this.description = description;
 		this.moisture = moisture;
-		this.user = user;
-		this.modules = modules;
+		this.dendro = dendro;
+	}
+
+	public Dendro getDendro() {
+		return dendro;
+	}
+
+	public void setDendro(Dendro dendro) {
+		this.dendro = dendro;
 	}
 
 	public Long getId() {
@@ -65,28 +65,12 @@ public class Dendro {
 		this.name = name;
 	}
 
-	public int getPosition() {
-		return position;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPosition(int position) {
-		this.position = position;
-	}
-
-	public Usuario getUser() {
-		return user;
-	}
-
-	public void setUser(Usuario user) {
-		this.user = user;
-	}
-
-	public Double getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Double getMoisture() {
@@ -95,14 +79,6 @@ public class Dendro {
 
 	public void setMoisture(Double moisture) {
 		this.moisture = moisture;
-	}
-
-	public List<Modulo> getModules() {
-		return modules;
-	}
-
-	public void setModules(List<Modulo> modules) {
-		this.modules = modules;
 	}
 
 	@Override
@@ -118,7 +94,7 @@ public class Dendro {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Dendro other = (Dendro) obj;
+		Modulo other = (Modulo) obj;
 		return Objects.equals(id, other.id);
 	}
 

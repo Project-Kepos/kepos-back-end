@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,9 @@ import java.util.Objects;
 
 @Entity
 public class Usuario implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,6 +28,9 @@ public class Usuario implements UserDetails {
 	private String email;
 
 	private String senha;
+
+	@OneToMany(mappedBy = "user")
+	private List<Dendro> dendros;
 
 	public Usuario() {
 	}
@@ -98,6 +106,14 @@ public class Usuario implements UserDetails {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public List<Dendro> getDendros() {
+		return dendros;
+	}
+
+	public void setDendros(List<Dendro> dendros) {
+		this.dendros = dendros;
 	}
 
 	@Override
