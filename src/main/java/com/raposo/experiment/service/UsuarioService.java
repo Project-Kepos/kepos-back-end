@@ -74,8 +74,9 @@ public class UsuarioService implements IUsuarioService {
 		if (!usuarioRepository.existsById(json.id())) {
 			throw new EntityNotFoundException();
 		}
-
+		logger.info(json.dendros());
 		var usuario = criarModelUsuario(json);
+		logger.info(usuario.getDendros());
 		return usuarioRepository.save(usuario);
 	}
 
@@ -101,8 +102,9 @@ public class UsuarioService implements IUsuarioService {
 		usuario.setNome(json.nome());
 		usuario.setEmail(json.email());
 		usuario.setSenha(passwordEncoder.encode(json.senha()));
+		if(json.dendros()!=null){
 		usuario.setDendros(json.dendros());
-
+	}
 		return usuario;
 	}
 }

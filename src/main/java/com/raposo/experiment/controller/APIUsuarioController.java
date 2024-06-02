@@ -94,14 +94,19 @@ public class APIUsuarioController {
         }
         logger.info("Usuário encontrado: {}", usuario);
 
-        List<Dendro> dendros = usuario.getDendros();
-        dendros.add(dendro);
-        usuario.setDendros(dendros);
-        usuarioService.atualizarUsuario(new UsuarioDTO(usuario));
-
-        logger.info("Dendro adicionado com sucesso ao usuário: {}", usuario);
-
-        return "Dendro adicionado com sucesso";
+		List<Dendro> dendros = usuario.getDendros();
+		dendros.add(dendro);
+		usuario.setDendros(dendros);
+	
+		// Atualiza o usuário no banco de dados
+		try {
+			usuarioService.atualizarUsuario(new UsuarioDTO(usuario));
+			logger.info("Dendro '{}' adicionado com sucesso ao usuário: {}", dendro.getName(), usuario);
+			return "Dendro added successfully";
+		} catch (Exception e) {
+			logger.error("Erro ao adicionar Dendro ao usuário: {}", e.getMessage());
+			return "Error adding Dendro to user";
+		}
     }
 
 	@PutMapping
