@@ -1,100 +1,136 @@
 package com.raposo.experiment.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Objects;
 
 @Entity
 public class Usuario implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
-    
-    public String nome;
-    public String email;
-    public String senha;
-    public Usuario() {
-    }
 
-    public Usuario(String nome, String email, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-    }
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Override
-    public String getPassword() {
-        return senha;
-    }
+	private String nome;
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+	private String email;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	private String senha;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	@OneToMany(mappedBy = "user")
+	private List<Dendro> dendros;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	public Usuario() {
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	public Usuario(String nome, String email, String senha) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
 
-    public int getId() {
-        return id;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	@Override
+	public String getPassword() {
+		return senha;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	@Override
+	public String getUsername() {
+		return email;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    public String getSenha() {
-        return senha;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public List<Dendro> getDendros() {
+		return dendros;
+	}
+
+	public void setDendros(List<Dendro> dendros) {
+		this.dendros = dendros;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(id, other.id);
+	}
+
 }

@@ -1,21 +1,24 @@
 package com.raposo.experiment.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.raposo.experiment.dto.DendroDTO;
 import com.raposo.experiment.model.Dendro;
 
 public interface IDendroService {
 
-    public List<Dendro> consultaDendros();
+	public List<Dendro> consultaTodasDendros();
 
-    public List<Dendro> consultaDendrosPorNome(String nome);
+	public List<Dendro> consultaDendrosPorNome(String nome);
+	
+	public List<Dendro> consultaDendrosPorUsuario(Long userId);
 
-    public Optional<Dendro> consultaDendroPorId(Long id);
+	public Dendro consultaDendroPorId(String id);
 
-    public Optional<Dendro> cadastrarDendro(Dendro dendro);
+	public Dendro cadastrarDendro(DendroDTO json, Long userId);
 
-    public Optional<Dendro> atualizarDendro(Dendro dendro);
+	public Dendro atualizarDendro(String id, DendroDTO json);
 
-    public void deletarDendro(Long id);
+	public void deletarDendro(String id);
+	
 }
