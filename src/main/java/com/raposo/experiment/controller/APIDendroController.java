@@ -46,6 +46,9 @@ public class APIDendroController {
 		return dendros.stream().map(DendroDTO::new).toList();
 	}
 
+	
+	
+
 	@GetMapping("/usuario")
 	public List<DendroDTO> consultaTodasDendrosPorUsuario(HttpServletRequest request) {
 		var userId = request.getAttribute("userId");

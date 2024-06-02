@@ -101,6 +101,7 @@ public class UsuarioService implements IUsuarioService {
 		usuario.setNome(json.nome());
 		usuario.setEmail(json.email());
 		usuario.setSenha(passwordEncoder.encode(json.senha()));
+		usuario.setDendros(json.dendros());
 
 		return usuario;
 	}
