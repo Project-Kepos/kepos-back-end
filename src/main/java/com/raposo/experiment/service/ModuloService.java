@@ -2,6 +2,8 @@ package com.raposo.experiment.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +12,13 @@ import com.raposo.experiment.dto.ModuloDTO;
 import com.raposo.experiment.model.IDendroRepository;
 import com.raposo.experiment.model.IModuloRepository;
 import com.raposo.experiment.model.Modulo;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ModuloService implements IModuloService {
+
+	Logger logger = LogManager.getLogger(getClass());
 
 	@Autowired
 	IModuloRepository moduloRepository;
@@ -21,71 +26,73 @@ public class ModuloService implements IModuloService {
 	@Autowired
 	IDendroRepository dendroRepository;
 
-	public List<Modulo> listarModulosPorDendro(Long idDendro) {
-		if (!dendroRepository.existsById(idDendro)) {
-			throw new EntityNotFoundException();
-		}
+	// TODO: Revisar necessidade deste método
+	public List<Modulo> consultaTodosModulos() {
+		logger.info("Consultando todos os Modulos");
 
-		return moduloRepository.findByDendroId(idDendro);
+		return moduloRepository.findAll();
 	}
 
-	public Modulo listarPorId(Long id) {
+	public Modulo consultaPorId(Long id) {
+		logger.info("Consultando Modulo por id");
+
 		var modulo = moduloRepository.findById(id);
 
 		if (modulo.isEmpty()) {
-			throw new EntityNotFoundException();
+			throw new EntityNotFoundException("Módulo não encontrado com o id fornecido.");
 		}
 
 		return modulo.get();
 	}
 
+	public List<Modulo> consultaPorDendro(String id) {
+		logger.info("Consultando Modulo por Dendro");
+
+		if (!dendroRepository.existsById(id)) {
+			throw new EntityNotFoundException("Dendro não encontrada com o id fornecido.");
+		}
+
+		return moduloRepository.findAllByDendro_Id(id);
+	}
+
+	// TODO: Verifica se de fato o limite de módulos será 4 por dendro
+	// TODO: Impedir valores null pós testes
 	public Modulo cadastrarModulo(ModuloDTO json) {
-		var dendro = dendroRepository.findById(json.dendroId());
+		logger.info("Cadastrando Modulo");
+
+		var dendro = dendroRepository.findById(json.idDendro());
 
 		if (dendro.isEmpty()) {
-			throw new EntityNotFoundException();
+			throw new EntityNotFoundException("Dendro não encontrada com o id fornecido.");
 		}
 
 		if (dendro.get().getModules().size() >= 4) {
 			throw new ErroCustomizado("O limite máximo de módulos por dendro são 4.");
 		}
 
-		var modulo = criarModelModulo(json);
+		var modulo = new Modulo(json.name(), json.desc(), json.humidity(), json.humidityLevel(), dendro.get());
+
 		return moduloRepository.save(modulo);
 	}
 
-	public Modulo atualizarModulo(ModuloDTO json) {
-		if (json.id() == null) {
-			throw new ErroCustomizado("O id do módulo é obrigatório.");
+	// TODO: Impedir valores null pós testes
+	public Modulo atualizarModulo(Long id, ModuloDTO json) {
+		logger.info("Atualizando Modulo");
+
+		var modulo = moduloRepository.findById(id);
+
+		if (modulo.isEmpty()) {
+			throw new EntityNotFoundException("Módulo não encontrado com o id fornecido.");
 		}
 
-		if (!moduloRepository.existsById(json.id())) {
-			throw new EntityNotFoundException();
-		}
+		modulo.get().atualizarModulo(json);
 
-		if (!dendroRepository.existsById(json.dendroId())) {
-			throw new EntityNotFoundException();
-		}
-
-		var modulo = criarModelModulo(json);
-		return moduloRepository.save(modulo);
+		return modulo.get();
 	}
 
 	public void deletarModulo(Long id) {
+		logger.info("Deletando Modulo");
+
 		moduloRepository.deleteById(id);
 	}
-
-	private Modulo criarModelModulo(ModuloDTO json) {
-		var modulo = new Modulo();
-		var dendro = dendroRepository.findById(json.dendroId()).get();
-
-		modulo.setId(json.id());
-		modulo.setName(json.name());
-		modulo.setDescription(json.description());
-		modulo.setMoisture(json.moisture());
-		modulo.setDendro(dendro);
-
-		return modulo;
-	}
-
 }

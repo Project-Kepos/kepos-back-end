@@ -1,11 +1,14 @@
 package com.raposo.experiment.model;
 
-import java.util.List;
+import java.util.Optional;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IModuloRepository extends JpaRepository<Modulo, Long>{
+public interface IModuloRepository extends JpaRepository<Modulo, Long> {
 
-	public List<Modulo> findByDendroId(Long idDendro);
-	
+	public Optional<Modulo> findById(Long id);
+
+	public List<Modulo> findAllByDendro_Id(String id);
+
 }

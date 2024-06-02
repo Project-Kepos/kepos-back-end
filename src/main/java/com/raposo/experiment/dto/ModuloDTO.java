@@ -11,16 +11,18 @@ public record ModuloDTO(
 		@NotBlank(message = "O nome é obrigatório.")
 		String name,
 		
-		String description,
+		String desc,
 		
-		Double moisture,
+		Integer humidity,
+		
+		Integer humidityLevel,
 		
 		@NotNull(message = "O id da dendro associada é obrigatório")
-		Long dendroId
+		String idDendro
 ) {
 	
 	public ModuloDTO(Modulo modulo) {
-		this(modulo.getId(), modulo.getName(), modulo.getDescription(), modulo.getMoisture(), modulo.getDendro().getId());
+		this(modulo.getId(), modulo.getName(), modulo.getDesc(), modulo.getHumidity(), modulo.getHumidityLevel(), modulo.getDendro().getId());
 	}
 
 }

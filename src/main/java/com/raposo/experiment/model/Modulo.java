@@ -2,53 +2,46 @@ package com.raposo.experiment.model;
 
 import java.util.Objects;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.raposo.experiment.dto.ModuloDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Modulo {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private String name;
 
-	private String description;
+	private String desc;
 
-	private Double moisture;
+	private Integer humidity;
+
+	private Integer humidityLevel;
 
 	@ManyToOne
-	@JsonIgnore
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "dendro_id", referencedColumnName = "id")
 	private Dendro dendro;
 
+	// Constructors
 	public Modulo() {
 	}
 
-	public Modulo(String name, String description, Double moisture, Dendro dendro) {
+	public Modulo(String name, String desc, Integer humidity, Integer humidityLevel, Dendro dendro) {
 		this.name = name;
-		this.description = description;
-		this.moisture = moisture;
+		this.humidity = humidity;
+		this.humidityLevel = humidityLevel;
 		this.dendro = dendro;
 	}
 
-	public Dendro getDendro() {
-		return dendro;
-	}
-
-	public void setDendro(Dendro dendro) {
-		this.dendro = dendro;
-	}
-
+	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -65,20 +58,36 @@ public class Modulo {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public Double getMoisture() {
-		return moisture;
+	public Integer getHumidity() {
+		return humidity;
 	}
 
-	public void setMoisture(Double moisture) {
-		this.moisture = moisture;
+	public void setHumidity(Integer humidity) {
+		this.humidity = humidity;
+	}
+
+	public Integer getHumidityLevel() {
+		return humidityLevel;
+	}
+
+	public void setHumidityLevel(Integer humidityLevel) {
+		this.humidityLevel = humidityLevel;
+	}
+
+	public Dendro getDendro() {
+		return dendro;
+	}
+
+	public void setDendro(Dendro dendro) {
+		this.dendro = dendro;
 	}
 
 	@Override
@@ -96,6 +105,24 @@ public class Modulo {
 			return false;
 		Modulo other = (Modulo) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public void atualizarModulo(ModuloDTO json) {
+		if (json.name() != null) {
+			name = json.name();
+		}
+
+		if (json.desc() != null) {
+			desc = json.desc();
+		}
+
+		if (json.humidity() != null) {
+			humidity = json.humidity();
+		}
+
+		if (json.humidityLevel() != null) {
+			humidityLevel = json.humidityLevel();
+		}
 	}
 
 }
