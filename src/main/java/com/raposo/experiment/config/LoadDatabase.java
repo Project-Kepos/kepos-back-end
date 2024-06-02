@@ -57,11 +57,12 @@ public class LoadDatabase {
 	private Dendro salvarDendros() {
 		List<Modulo> modulos = new ArrayList<>();
 
-		Dendro dendro01 = new Dendro("1", "Dendro 01", 0, 0, 0);
-		Dendro dendro02 = new Dendro("2", "Dendro 02", 0, 0, 0);
+		Dendro dendro01 = new Dendro("1", "Dendro 01", 0, 0, 0, modulos);
+		Dendro dendro02 = new Dendro("2", "Dendro 02", 0, 0, 0, null);
+		Dendro dendro03 = new Dendro("3", "Dendro 03", 0, 0, 0, null);
 
 
-		dendroRepository.saveAll(Arrays.asList(dendro01, dendro02));
+		dendroRepository.saveAll(Arrays.asList(dendro01, dendro02, dendro03));
 
 		logger.info("Dendros carregados no banco de dados");
 

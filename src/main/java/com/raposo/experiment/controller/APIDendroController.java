@@ -1,5 +1,7 @@
 package com.raposo.experiment.controller;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,12 @@ public class APIDendroController {
     public ResponseEntity<Object> consultaPorId(@PathVariable String id) {
         logger.info("Consultando Dendro por id");
 
-        return ResponseEntity.status(HttpStatus.OK).body(dendroService.consultaDendroPorId(id));
+        Optional<Dendro> dendro = dendroService.consultaDendroPorId(id);
+        if(dendro.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(dendro.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dendro não encontrado");
+        }
     }
 
     @GetMapping(value = "dendro", params = "nome")
@@ -69,7 +76,7 @@ public class APIDendroController {
 
     @PatchMapping("dendro/{id}")
     @Transactional
-    public ResponseEntity<Object> atualizarDendro(@PathVariable String id,@RequestBody Dendro dendro) {
+    public ResponseEntity<Object> atualizarDendro(@PathVariable String id, @RequestBody Dendro dendro) {
         logger.info("Atualizando Dendro");
 
         Assert.notNull(id, "Id não pode ser nulo");

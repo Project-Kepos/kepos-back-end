@@ -72,6 +72,7 @@ public class DendroService implements IDendroService {
             d.setName(dendro.getName());
             d.setLuminosity(dendro.getLuminosity());
             d.setTemperature(dendro.getTemperature());
+            d.setHumidity(dendro.getHumidity());
             
             return dendroRepository.save(d);
         });

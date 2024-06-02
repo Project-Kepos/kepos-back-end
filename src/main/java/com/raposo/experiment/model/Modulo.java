@@ -1,5 +1,7 @@
 package com.raposo.experiment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +20,7 @@ public class Modulo {
     private int humidityLevel;
     private String desc;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dendro_id", referencedColumnName = "id")
     private Dendro dendro;

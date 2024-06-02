@@ -17,7 +17,6 @@ public class Dendro {
     private double humidity;
     private int luminosity;
     
-    @JsonIgnore
     @OneToMany(mappedBy = "dendro")
     private List<Modulo> modules;
 
@@ -25,7 +24,7 @@ public class Dendro {
     public Dendro() {
     }
 
-    public Dendro(String id, String name, double temperature, double humidity, int luminosity) {
+    public Dendro(String id, String name, double temperature, double humidity, int luminosity, List<Modulo> modules) {
         this.id = id;
         this.name = name;
         this.temperature = temperature;
