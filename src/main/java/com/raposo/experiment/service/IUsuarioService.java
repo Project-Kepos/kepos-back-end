@@ -1,13 +1,15 @@
 package com.raposo.experiment.service;
-import java.util.Optional;
 import java.util.List;
 
-
+import com.raposo.experiment.dto.LoginDTO;
+import com.raposo.experiment.dto.UsuarioDTO;
 import com.raposo.experiment.model.Usuario;
 
 public interface IUsuarioService {
-    public Optional<Usuario> cadastrarUsuario(Usuario usuario);
-    public List<Usuario> listarUsuarios();
-    public boolean verificarEmail(String email);
-    public Optional<Usuario> buscarUsuario(String email);
+	public Usuario listaUsuarioLogado(Long id);
+	public List<Usuario> listaTodosUsuarios();
+    public Usuario cadastrarUsuario(UsuarioDTO json);
+    public String realizarLogin(LoginDTO json);
+    public Usuario atualizarUsuario(UsuarioDTO json);
+    public void deletarUsuario(Long id);
 }

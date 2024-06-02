@@ -1,83 +1,104 @@
 package com.raposo.experiment.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.raposo.experiment.config.error.ErroCustomizado;
+import com.raposo.experiment.dto.DendroDTO;
 import com.raposo.experiment.model.Dendro;
 import com.raposo.experiment.model.IDendroRepository;
+import com.raposo.experiment.model.IUsuarioRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DendroService implements IDendroService {
 
-    public Logger getLogger() {
-        return this.logger;
-    }
+	@Autowired
+	IDendroRepository dendroRepository;
 
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
+	@Autowired
+	IUsuarioRepository usuarioRepository;
 
-    public IDendroRepository getDendroRepository() {
-        return this.dendroRepository;
-    }
+	Logger logger = LogManager.getLogger(getClass());
 
-    public void setDendroRepository(IDendroRepository dendroRepository) {
-        this.dendroRepository = dendroRepository;
-    }
+	// TODO: Revisar necessidade deste método
+	public List<Dendro> consultaTodasDendros() {
+		logger.info("Consultando todos os Dendros");
 
-    Logger logger = LogManager.getLogger(getClass());
+		return dendroRepository.findAll();
+	}
 
-    @Autowired
-    IDendroRepository dendroRepository;
+	// TODO: Revisar necessidade deste método
+	public List<Dendro> consultaDendrosPorNome(String nome) {
+		logger.info("Consultando Dendros por nome");
 
-    @Override
-    public List<Dendro> consultaDendros() {
-        logger.info("Consultando todos os Dendros");
+		return dendroRepository.findByName(nome);
+	}
 
-        return dendroRepository.findAll();
-    }
+	public List<Dendro> consultaDendrosPorUsuario(Long userId) {
+		return dendroRepository.findAllByUser_Id(userId);
+	}
 
-    @Override
-    public List<Dendro> consultaDendrosPorNome(String nome) {
-        logger.info("Consultando Dendros por nome");
+	public Dendro consultaDendroPorId(String id) {
+		logger.info("Consultando Dendro por id");
 
-        return dendroRepository.findByName(nome);
-    }
+		var dendro = dendroRepository.findById(id);
 
-    @Override
-    public Optional<Dendro> consultaDendroPorId(Long id) {
-        logger.info("Consultando Dendro por id");
+		if (dendro.isEmpty()) {
+			throw new EntityNotFoundException("Dendro não encontrada com o id fornecido.");
+		}
 
-        return dendroRepository.findById(id);
-    }
+		return dendro.get();
+	}
 
-    @Override
-    public Optional<Dendro> cadastrarDendro(Dendro dendro) {
-        logger.info("Cadastrando Dendro");
+	// TODO: Impedir valores null pós testes
+	public Dendro cadastrarDendro(DendroDTO json, Long userId) {
+		logger.info("Cadastrando Dendro");
 
-        return Optional.of(dendroRepository.save(dendro));
-    }
+		if (json.id() == null) {
+			throw new ErroCustomizado("O id da dendro é obrigatório");
+		}
+		
+		// Remover if abaixo pós testes
+		if (userId == null) {
+			userId = 1L;
+		}
 
-    @Override
-    public Optional<Dendro> atualizarDendro(Dendro dendro) {
-        logger.info("Atualizando Dendro");
+		var user = usuarioRepository.findById(userId);
 
-        return dendroRepository.findById(dendro.getId()).map(d -> {
-            d.setPosition(dendro.getPosition());
-            
-            return dendroRepository.save(d);
-        });
-    }
+		if (user.isEmpty()) {
+			throw new EntityNotFoundException("Usuário não encontrado com o id fornecido.");
+		}
 
-    @Override
-    public void deletarDendro(Long id) {
-        logger.info("Deletando Dendro");
+		var dendro = new Dendro(json.id(), json.name(), json.temperature(), json.humidity(), json.luminosity());
+		dendro.setUser(user.get());
 
-        dendroRepository.deleteById(id);
-    }
+		return dendroRepository.save(dendro);
+	}
+
+	// TODO: Impedir valores null pós testes
+	public Dendro atualizarDendro(String id, DendroDTO json) {
+		logger.info("Atualizando Dendro");
+
+		var dendro = dendroRepository.findById(id);
+
+		if (dendro.isEmpty()) {
+			throw new EntityNotFoundException("Dendro não encontrada com o id fornecido.");
+		}
+
+		dendro.get().atualizarDendro(json);
+
+		return dendro.get();
+	}
+
+	public void deletarDendro(String id) {
+		logger.info("Deletando Dendro");
+
+		dendroRepository.deleteById(id);
+	}
+
 }
