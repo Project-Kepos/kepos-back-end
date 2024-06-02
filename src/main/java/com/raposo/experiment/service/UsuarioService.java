@@ -49,6 +49,7 @@ public class UsuarioService implements IUsuarioService {
 		return usuario.get();
 	}
 
+	// TODO: Verificar necessidade deste método
 	public List<Usuario> listaTodosUsuarios() {
 		logger.info("Listando usuarios no sistema");
 		return usuarioRepository.findAll();
