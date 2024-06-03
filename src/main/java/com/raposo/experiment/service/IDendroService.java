@@ -7,18 +7,20 @@ import com.raposo.experiment.model.Dendro;
 
 public interface IDendroService {
 
-	public List<Dendro> consultaTodasDendros();
+    public List<Dendro> consultaTodasDendros();
 
-	public List<Dendro> consultaDendrosPorNome(String nome);
-	
-	public List<Dendro> consultaDendrosPorUsuario(Long userId);
+    public List<Dendro> consultaDendrosPorNome(String nome);
 
-	public Dendro consultaDendroPorId(String id);
+    public List<Dendro> consultaDendrosPorUsuario(Long userId);
 
-	public Dendro cadastrarDendro(DendroDTO json, Long userId);
+    public Dendro consultaDendroPorId(String id);
 
-	public Dendro atualizarDendro(String id, DendroDTO json);
+    public Dendro cadastrarDendro(DendroDTO json);
 
-	public void deletarDendro(String id);
-	
+    public Dendro adicionarUsuario(Long userId, DendroDTO json);
+
+    public Dendro atualizarDendro(String id, DendroDTO json);
+
+    public void deletarDendro(String id);
+
 }

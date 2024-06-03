@@ -1,8 +1,5 @@
 package com.raposo.experiment.dto;
 
-import java.util.List;
-
-import com.raposo.experiment.model.Dendro;
 import com.raposo.experiment.model.Usuario;
 
 import jakarta.validation.constraints.Email;
@@ -19,13 +16,11 @@ public record UsuarioDTO(
 		String email,
 		
 		@NotBlank(message = "A senha é obrigatória.")
-		String senha,
-		
-		List<Dendro> dendros
+		String senha
 ) {
 	
 	public UsuarioDTO(Usuario user) {
-		this(user.getId(), user.getNome(), user.getEmail(), user.getSenha(), user.getDendros());
+		this(user.getId(), user.getNome(), user.getEmail(), user.getSenha());
 	}
 	
 }

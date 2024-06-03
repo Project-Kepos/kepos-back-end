@@ -27,72 +27,80 @@ import jakarta.transaction.Transactional;
 @RequestMapping("/api/v1/dendro")
 public class APIDendroController {
 
-	@Autowired
-	IDendroService dendroService;
+    @Autowired
+    IDendroService dendroService;
 
-	// TODO: Revisar necessidade deste método
-	@GetMapping
-	public List<DendroDTO> consultaTodasDendros() {
-		var dendros = dendroService.consultaTodasDendros();
+    // TODO: Revisar necessidade deste método
+    @GetMapping
+    public List<DendroDTO> consultaTodasDendros() {
+        var dendros = dendroService.consultaTodasDendros();
 
-		return dendros.stream().map(DendroDTO::new).toList();
-	}
+        return dendros.stream().map(DendroDTO::new).toList();
+    }
 
-	// TODO: Revisar necessidade deste método
-	@GetMapping(params = "nome")
-	public List<DendroDTO> consultaPorNome(@RequestParam String nome) {
-		var dendros = dendroService.consultaDendrosPorNome(nome);
+    // TODO: Revisar necessidade deste método
+    @GetMapping(params = "nome")
+    public List<DendroDTO> consultaPorNome(@RequestParam String nome) {
+        var dendros = dendroService.consultaDendrosPorNome(nome);
 
-		return dendros.stream().map(DendroDTO::new).toList();
-	}
+        return dendros.stream().map(DendroDTO::new).toList();
+    }
 
-	@GetMapping("/usuario")
-	public List<DendroDTO> consultaTodasDendrosPorUsuario(HttpServletRequest request) {
-		var userId = request.getAttribute("userId");
-		var dendros = dendroService.consultaDendrosPorUsuario((Long) userId);
+    @GetMapping("/usuario")
+    public List<DendroDTO> consultaTodasDendrosPorUsuario(HttpServletRequest request) {
+        var userId = request.getAttribute("userId");
+        var dendros = dendroService.consultaDendrosPorUsuario((Long) userId);
 
-		return dendros.stream().map(DendroDTO::new).toList();
-	}
+        return dendros.stream().map(DendroDTO::new).toList();
+    }
 
-	@GetMapping("/{id}")
-	public DendroDTO consultaPorId(@PathVariable String id) {
-		var dendro = dendroService.consultaDendroPorId(id);
+    @GetMapping("/{id}")
+    public DendroDTO consultaPorId(@PathVariable String id) {
+        var dendro = dendroService.consultaDendroPorId(id);
 
-		return new DendroDTO(dendro);
-	}
+        return new DendroDTO(dendro);
+    }
 
-	@PostMapping
-	@Transactional
-	public ResponseEntity<DendroDTO> cadastrarDendro(@RequestBody DendroDTO json, HttpServletRequest request,
-			UriComponentsBuilder uriBuilder) {
-		var userId = request.getAttribute("userId");
-		var dendro = dendroService.cadastrarDendro(json, (Long) userId);
-		var uri = uriBuilder.path("/api/v1/dendro/{id}").buildAndExpand(dendro.getId()).toUri();
+    @PostMapping
+    @Transactional
+    public ResponseEntity<DendroDTO> cadastrarDendro(@RequestBody DendroDTO json,
+                                                     UriComponentsBuilder uriBuilder) {
+        var dendro = dendroService.cadastrarDendro(json);
+        var uri = uriBuilder.path("/api/v1/dendro/{id}").buildAndExpand(dendro.getId()).toUri();
 
-		return ResponseEntity.created(uri).body(new DendroDTO(dendro));
-	}
+        return ResponseEntity.created(uri).body(new DendroDTO(dendro));
+    }
 
-	@PatchMapping("/{id}")
-	@Transactional
-	public DendroDTO atualizarDendro(@PathVariable String id, @RequestBody DendroDTO json) {
-		var dendro = dendroService.atualizarDendro(id, json);
+    @PatchMapping("/usuario")
+    @Transactional
+    public DendroDTO adicionarUsuario(@RequestBody DendroDTO json, HttpServletRequest request) {
+        var userId = request.getAttribute("userId");
+        var dendro = dendroService.adicionarUsuario((long) userId, json);
 
-		return new DendroDTO(dendro);
-	}
+        return new DendroDTO(dendro);
+    }
 
-	@DeleteMapping("/{id}")
-	@Transactional
-	public ResponseEntity<Object> deletarDendro(@PathVariable String id, HttpServletRequest request) {
-		dendroService.deletarDendro(id);
+    @PatchMapping("/{id}")
+    @Transactional
+    public DendroDTO atualizarDendro(@PathVariable String id, @RequestBody DendroDTO json) {
+        var dendro = dendroService.atualizarDendro(id, json);
 
-		Resposta resposta = new Resposta();
+        return new DendroDTO(dendro);
+    }
 
-		resposta.setMensagem("Dendro deletado com sucesso");
-		resposta.setStatus(HttpStatus.OK);
-		resposta.setCaminho(request.getRequestURI().toString());
-		resposta.setMetodo(request.getMethod());
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Object> deletarDendro(@PathVariable String id, HttpServletRequest request) {
+        dendroService.deletarDendro(id);
 
-		return ResponseEntity.status(HttpStatus.OK).body(resposta);
-	}
+        Resposta resposta = new Resposta();
+
+        resposta.setMensagem("Dendro deletado com sucesso");
+        resposta.setStatus(HttpStatus.OK);
+        resposta.setCaminho(request.getRequestURI().toString());
+        resposta.setMetodo(request.getMethod());
+
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
 
 }
