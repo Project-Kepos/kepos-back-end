@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 public record ModuloDTO(
 		Long id,
 		
-		@NotBlank(message = "O nome é obrigatório.")
 		String name,
 		
 		String desc,

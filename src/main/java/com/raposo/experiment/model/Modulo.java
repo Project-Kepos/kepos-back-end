@@ -40,6 +40,7 @@ public class Modulo {
     public Modulo(String name, String desc, Integer humidity, Integer humidityLevel, Dendro dendro) {
         this.name = name;
         this.humidity = humidity;
+        this.desc=desc;
         this.humidityLevel = humidityLevel;
         this.dendro = dendro;
     }
