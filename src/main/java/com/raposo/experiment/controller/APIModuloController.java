@@ -53,7 +53,7 @@ public class APIModuloController {
 		return new ModuloDTO(modulo);
 	}
 
-	@PostMapping("modulo")
+	@PostMapping
 	@Transactional
 	public ResponseEntity<ModuloDTO> cadastrarModulo(@RequestBody @Valid ModuloDTO json,
 			UriComponentsBuilder uriBuilder) {
