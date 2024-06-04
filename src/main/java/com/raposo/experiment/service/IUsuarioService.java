@@ -10,6 +10,6 @@ public interface IUsuarioService {
 	public List<Usuario> listaTodosUsuarios();
     public Usuario cadastrarUsuario(UsuarioDTO json);
     public String realizarLogin(LoginDTO json);
-    public Usuario atualizarUsuario(UsuarioDTO json);
+    public Usuario atualizarUsuario(UsuarioDTO json,Long id);
     public void deletarUsuario(Long id);
 }

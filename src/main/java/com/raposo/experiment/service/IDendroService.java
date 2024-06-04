@@ -23,4 +23,6 @@ public interface IDendroService {
 
     public void deletarDendro(String id);
 
+    public Dendro removerUsuarioDendro(DendroDTO json);
+
 }

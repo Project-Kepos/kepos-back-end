@@ -105,6 +105,22 @@ public class DendroService implements IDendroService {
         }
 
         dendro.get().atualizarDendro(json);
+        
+
+        return dendro.get();
+    }
+    public Dendro removerUsuarioDendro(DendroDTO json) {
+        logger.info("Atualizando Dendro");
+
+        var dendro = dendroRepository.findById(json.id());
+
+        if (dendro.isEmpty()) {
+            throw new EntityNotFoundException("Dendro não encontrada com o id fornecido.");
+        }
+
+            dendro.get().setUser(null);
+        
+        
 
         return dendro.get();
     }

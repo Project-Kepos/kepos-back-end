@@ -66,16 +66,14 @@ public class UsuarioService implements IUsuarioService {
 		return usuarioRepository.save(novoUsuario);
 	}
 
-	public Usuario atualizarUsuario(UsuarioDTO json) {
-		if (json.id() == null) {
-			throw new ErroCustomizado("O id do usuário é obrigatório.");
-		}
+	public Usuario atualizarUsuario(UsuarioDTO json,Long id) {
 
-		if (!usuarioRepository.existsById(json.id())) {
+		if (!usuarioRepository.existsById(id)) {
 			throw new EntityNotFoundException();
 		}
 
 		var usuario = criarModelUsuario(json);
+		usuario.setId(id);
 		return usuarioRepository.save(usuario);
 	}
 

@@ -80,6 +80,14 @@ public class APIDendroController {
         return new DendroDTO(dendro);
     }
 
+    @PatchMapping("/usuario/desassociar")
+    @Transactional
+    public DendroDTO desassociarUsuario(@RequestBody DendroDTO json) {
+        var dendro = dendroService.removerUsuarioDendro(json);
+
+        return new DendroDTO(dendro);
+    }
+
     @PatchMapping("/{id}")
     @Transactional
     public DendroDTO atualizarDendro(@PathVariable String id, @RequestBody DendroDTO json) {

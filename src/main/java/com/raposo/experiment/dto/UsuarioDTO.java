@@ -15,7 +15,7 @@ public record UsuarioDTO(
 		@Email(message = "Insira um e-mail válido.")
 		String email,
 		
-		@NotBlank(message = "A senha é obrigatória.")
+		
 		String senha
 ) {
 	
