@@ -62,7 +62,7 @@ public class UsuarioService implements IUsuarioService {
 			throw new ErroCustomizado("E-mail já cadastrado no sistema.");
 		}
 
-		var novoUsuario = criarModelUsuario(json);
+		var novoUsuario = new Usuario(json.nome(),json.email(),passwordEncoder.encode(json.senha()));
 		return usuarioRepository.save(novoUsuario);
 	}
 
@@ -71,10 +71,14 @@ public class UsuarioService implements IUsuarioService {
 		if (!usuarioRepository.existsById(id)) {
 			throw new EntityNotFoundException();
 		}
+		
 
-		var usuario = criarModelUsuario(json);
-		usuario.setId(id);
-		return usuarioRepository.save(usuario);
+		var usuario = usuarioRepository.findById(id);
+		usuario.get().atualizarUsuario(json);
+		if(json.senha()!=null){
+            usuario.get().setSenha(passwordEncoder.encode(json.senha()));
+        }
+		return usuario.get();
 	}
 
 	public void deletarUsuario(Long id) {
@@ -92,14 +96,5 @@ public class UsuarioService implements IUsuarioService {
 		}
 	}
 
-	private Usuario criarModelUsuario(UsuarioDTO json) {
-		var usuario = new Usuario();
-
-		usuario.setId(json.id());
-		usuario.setNome(json.nome());
-		usuario.setEmail(json.email());
-		usuario.setSenha(passwordEncoder.encode(json.senha()));
-
-		return usuario;
-	}
+	
 }

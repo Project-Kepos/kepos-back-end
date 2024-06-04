@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.raposo.experiment.dto.UsuarioDTO;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -119,6 +121,20 @@ public class Usuario implements UserDetails {
             return false;
         Usuario other = (Usuario) obj;
         return Objects.equals(id, other.id);
+    }
+
+    public void atualizarUsuario(UsuarioDTO json)
+    {
+        if(json.id()!=null){
+            this.id=json.id();
+        }
+        if(json.nome()!=null){
+            this.nome=json.nome();
+        }
+        if(json.email()!=null){
+            this.email=json.email();
+        }
+
     }
 
 }
