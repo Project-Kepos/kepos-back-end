@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
@@ -66,19 +67,19 @@ public class UsuarioService implements IUsuarioService {
 		return usuarioRepository.save(novoUsuario);
 	}
 
-	public Usuario atualizarUsuario(UsuarioDTO json,Long id) {
-
+	public String atualizarUsuario(UsuarioDTO json, Long id) {
 		if (!usuarioRepository.existsById(id)) {
 			throw new EntityNotFoundException();
 		}
 		
-
 		var usuario = usuarioRepository.findById(id);
 		usuario.get().atualizarUsuario(json);
+		
 		if(json.senha()!=null){
             usuario.get().setSenha(passwordEncoder.encode(json.senha()));
         }
-		return usuario.get();
+		
+	    return tokenService.gerarToken(usuario.get());
 	}
 
 	public void deletarUsuario(Long id) {

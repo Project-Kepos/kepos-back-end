@@ -67,11 +67,13 @@ public class APIUsuarioController {
 
 	@PutMapping
 	@Transactional
-	public UsuarioDTO atualizarUsuario(HttpServletRequest request,@RequestBody @Valid UsuarioDTO json) {
+	public DadosTokenJWT atualizarUsuario(HttpServletRequest request,@RequestBody @Valid UsuarioDTO json) {
 		var idUsuario = request.getAttribute("userId");
-		var usuario = usuarioService.atualizarUsuario(json,(Long)idUsuario);
+		var token = usuarioService.atualizarUsuario(json,(Long)idUsuario);
 
-		return new UsuarioDTO(usuario);
+		request.setAttribute("Authorization", "Bearer " + token);
+		
+		return new DadosTokenJWT(token);
 	}
 
 	@DeleteMapping
