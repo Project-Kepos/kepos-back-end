@@ -71,14 +71,13 @@ public class UsuarioService implements IUsuarioService {
 		if (!usuarioRepository.existsById(id)) {
 			throw new EntityNotFoundException();
 		}
-		
+
 		var usuario = usuarioRepository.findById(id);
 		usuario.get().atualizarUsuario(json);
-		
+
 		if(json.senha()!=null){
             usuario.get().setSenha(passwordEncoder.encode(json.senha()));
         }
-		
 	    return tokenService.gerarToken(usuario.get());
 	}
 
@@ -96,6 +95,4 @@ public class UsuarioService implements IUsuarioService {
 			throw new ErroCustomizado("E-mail ou senha inválidos.");
 		}
 	}
-
-	
 }

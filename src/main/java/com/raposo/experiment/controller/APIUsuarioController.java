@@ -72,7 +72,6 @@ public class APIUsuarioController {
 		var token = usuarioService.atualizarUsuario(json,(Long)idUsuario);
 
 		request.setAttribute("Authorization", "Bearer " + token);
-		
 		return new DadosTokenJWT(token);
 	}
 

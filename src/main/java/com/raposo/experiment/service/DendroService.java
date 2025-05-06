@@ -105,8 +105,6 @@ public class DendroService implements IDendroService {
         }
 
         dendro.get().atualizarDendro(json);
-        
-
         return dendro.get();
     }
     public Dendro removerUsuarioDendro(DendroDTO json) {
@@ -119,8 +117,6 @@ public class DendroService implements IDendroService {
         }
 
             dendro.get().setUser(null);
-        
-        
 
         return dendro.get();
     }
@@ -130,5 +126,4 @@ public class DendroService implements IDendroService {
 
         dendroRepository.deleteById(id);
     }
-
 }

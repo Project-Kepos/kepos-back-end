@@ -6,7 +6,7 @@ import com.raposo.experiment.dto.ModuloDTO;
 import com.raposo.experiment.model.Modulo;
 
 public interface IModuloService {
-	
+
 	public List<Modulo> consultaTodosModulos();
 
 	public Modulo consultaPorId(Long id);
