@@ -46,10 +46,10 @@ public class LoadDatabase {
     }
 
     private Dendro salvarDendros() {
-        Dendro dendro01 = new Dendro("11111111111", "Dendro 01", 0.0, 31.22, 0);
-        Dendro dendro02 = new Dendro("22222222222", "Dendro 02", 45.0, 28.22, 0);
-        Dendro dendro03 = new Dendro("33333333333", "Dendro 03", 90.0, 16.71, 0);
-        Dendro dendro04 = new Dendro("44444444444", "Dendro 04", 180.0, 22.44, 0);
+        Dendro dendro01 = new Dendro("111111111111", "Dendro 01", 0.0, 31.22, 0);
+        Dendro dendro02 = new Dendro("222222222222", "Dendro 02", 45.0, 28.22, 0);
+        Dendro dendro03 = new Dendro("333333333333", "Dendro 03", 90.0, 16.71, 0);
+        Dendro dendro04 = new Dendro("444444444444", "Dendro 04", 180.0, 22.44, 0);
         Dendro dendro05 = new Dendro("CC50E3A24670", "Dendro Device", 0.0, 0.0, 0);
 
         dendroRepository.saveAll(Arrays.asList(dendro01, dendro02, dendro03, dendro04,dendro05));
