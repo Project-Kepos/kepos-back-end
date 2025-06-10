@@ -51,6 +51,7 @@ public class LoadDatabase {
         Dendro dendro03 = new Dendro("33333333333", "Dendro 03", 90.0, 16.71, 0);
         Dendro dendro04 = new Dendro("44444444444", "Dendro 04", 180.0, 22.44, 0);
         Dendro dendro05 = new Dendro("CC50E3A24670", "Dendro Device", 0.0, 0.0, 0);
+
         dendroRepository.saveAll(Arrays.asList(dendro01, dendro02, dendro03, dendro04,dendro05));
 
         logger.info("Dendros carregados no banco de dados");
