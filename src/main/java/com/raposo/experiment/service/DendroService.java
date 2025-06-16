@@ -47,6 +47,10 @@ public class DendroService implements IDendroService {
     public Dendro consultaDendroPorId(String id) {
         logger.info("Consultando Dendro por id");
 
+            if (id == null) {
+        throw new IllegalArgumentException("O id não pode ser nulo");
+    }
+
         var dendro = dendroRepository.findById(id);
 
         if (dendro.isEmpty()) {
