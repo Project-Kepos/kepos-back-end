@@ -1,5 +1,6 @@
 # Kepos Backend
 
+Eloah Baracho, João Raposo, Dayvid Dalton e Alberto Marques
 ## Sobre o Projeto
 Backend da aplicação Kepos desenvolvido em Spring Boot.
 
